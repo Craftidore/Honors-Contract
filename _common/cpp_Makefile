@@ -1,0 +1,15 @@
+debug:progname-debug-bin
+	gdb ./progname-debug-bin
+
+run:progname-bin
+	./progname-bin
+
+progname-bin:*.cpp 
+	g++ *.cpp -o progname-bin
+
+progname-debug-bin:*.cpp
+	g++ -g *.cpp -o progname-debug-bin
+
+clean:
+	rm *.o *-bin *.out *.ppm
+
