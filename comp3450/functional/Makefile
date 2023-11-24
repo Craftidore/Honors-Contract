@@ -12,4 +12,4 @@ debug:ppm-generator.cl
 	./ppm-generator-debug.cl
 
 clean:
-	rm -rf ppm-generator.cl ppm-generator-debug.cl
+	rm -rf ppm-generator.cl ppm-generator-debug.cl *.ppm
