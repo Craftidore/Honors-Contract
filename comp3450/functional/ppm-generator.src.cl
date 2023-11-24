@@ -36,8 +36,24 @@
                           (setf filename (concatenate 'string filename ".ppm")))))))))
   )
 
-(defun generate-gradient(height width)
-  (format t "INCOMPLETE CODE")) ; TODO: Fix this
+(defun colordiff(color1 color2)
+  (if (car color1)
+    (if (car color2)
+      (return-from colordiff
+        (cons (list (car color1) (- (car color2) (car color1)))
+              (colordiff (cdr color1) (cdr color2))))))
+  (if (or (not (car color1)) (not (car color2)))
+    (return-from colordiff '())))
+
+(defun generate-gradient(width color1 color2)
+  (defvar *list* '())
+  (loop for i from 1 to width do
+        (push (coerce (/ (- width i) width) 'float) *list*))
+  (return-from generate-gradient (mapcar (lambda (x) 
+            (mapcar (lambda (val-and-diff) 
+                (floor (+ (car val-and-diff) (* x (cadr val-and-diff)))))
+              (colordiff color1 color2)))
+          *list*)))
 
 
 
@@ -55,6 +71,27 @@
       ; can't make an image of a negative size
       (if (<= height 0) (setf height 1))
       (if (<= width 0) (setf width 1))
-      (generate-gradient height width)))
+      (defvar gradient (generate-gradient width '(0 255 0) '(255 0 0)))
 
-
+      (with-open-file (file
+                         filename
+                         :direction :output
+                         :if-exists :supersede)
+          (format file "P3~%# Generated with ppm-generator~%")
+          (format file "~a" width file)
+          (format file " " file)
+          (format file "~a" height file)
+          (format file "~%255~%") ; max color
+          (loop for y from 1 to height do
+                (progn
+                    (princ (car (car gradient)) file)
+                    (mapcar (lambda (color-val) (princ " " file) (princ color-val file)) (cdar gradient))
+                    (mapcar (lambda (color-tuple) 
+                              (mapcar (lambda (color-val) (princ " " file) (princ color-val file)) color-tuple)) (cdr gradient))
+                    (format file "~%")
+                ))
+        )
+  )
+)
+  
+ 
