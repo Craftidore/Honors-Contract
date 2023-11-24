@@ -88,10 +88,6 @@
                     (mapcar (lambda (color-val) (princ " " file) (princ color-val file)) (cdar gradient))
                     (mapcar (lambda (color-tuple) 
                               (mapcar (lambda (color-val) (princ " " file) (princ color-val file)) color-tuple)) (cdr gradient))
-                    (format file "~%")
-                ))
-        )
-  )
-)
+                    (format file "~%"))))))
   
  
