@@ -62,7 +62,7 @@
       (if args (progn
                  (setf filename (car args))
                  (setf filename (add-extension-if-not-present filename ".ppm"))))
-  (return-from handle-arguments (list height width filename)))
+  (list height width filename))
 
 ;;; creating gradient
 
@@ -82,7 +82,7 @@
   (defvar final-list '())
   (loop for i from 1 to len do
     (push (coerce (/ (- len i) len) 'float) final-list))
-  (return-from generate-list-of-floats final-list))
+  final-list)
 
 (defun apply-val-diff(percent start-val diff)
   "Applies a color val & diff pair to a percent"

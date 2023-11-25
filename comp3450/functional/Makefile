@@ -1,3 +1,9 @@
+test:ppm-generator.cl
+	./ppm-generator.cl
+	mv image.ppm clisp.ppm
+	../oop/ppm-generator-linux-0.1
+	diff image.ppm clisp.ppm
+
 run:ppm-generator.cl
 	./ppm-generator.cl
 
