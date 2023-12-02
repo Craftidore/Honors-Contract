@@ -4,6 +4,14 @@ test:ppm-generator.cl
 	../oop/ppm-generator-linux-0.1
 	diff image.ppm clisp.ppm
 
+test-tiny:ppm-generator.cl
+	./ppm-generator.cl
+	mv image.ppm clisp.ppm
+	../oop/ppm-generator-linux-0.1
+	head -5 clisp.ppm > temp
+	head -5 image.ppm > temp2
+	diff temp temp2
+
 run:ppm-generator.cl
 	./ppm-generator.cl
 

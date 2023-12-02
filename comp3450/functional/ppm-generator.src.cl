@@ -38,16 +38,16 @@
   (parse-integer (car *args*)))
 
 
-(defun check-for-extension(filename ext)
+(defun check-for-extension (filename ext)
   "Returns whether filename ends in ext"
   (string-equal (substring (reverse filename) 0 (length ext)) (reverse ext)))
 
-(defun add-extension-if-not-present(filename ext)
+;; Function refactor not my own. See ../Credits.md for original function, credit, and reasoning for change
+(defun add-extension-if-not-present (filename ext)
   "Returns filename with ext at the end, if ext wasn't there already"
-  (defparameter result-filename filename)
   (if (not (check-for-extension filename ext))
-    (setf result-filename (concatenate 'string filename ext)))
-  result-filename)
+    (concatenate 'string filename ext)
+    filename))
 
 (defun handle-arguments(default-height default-width default-filename)
   "Returns (list height width filename), using default values if command line args aren't given"
@@ -69,7 +69,7 @@
 ;; NOTE: In the code below 'percent' refers to a float between 0 and 1 inclusive, not a value between 0 and 100.
 ;; I *do not* care.
 
-(defun colordiff(color1 color2)
+(defun colordiff (color1 color2)
   "Returns list of lists of starting color vals & the difference between the two colors"
   (if (and color1 color2)
       (return-from colordiff
@@ -77,12 +77,11 @@
               (colordiff (cdr color1) (cdr color2))))
       (return-from colordiff '())))
 
-(defun generate-list-of-floats(len)
+;; Function refactor not my own. See ../Credits.md for original function, credit, and reasoning for change
+(defun generate-list-of-floats (len)
   "Generates list of floats from 0-1, inclusive, based on the size of the list"
-  (defvar final-list '())
-  (loop for i from 1 to len do
-    (push (coerce (/ (- len i) len) 'float) final-list))
-  final-list)
+  (loop for i from 0 to (- len 1) collect ; (- len 1) to keep behavior identical to original c++ implementation
+    (coerce (/ i len) 'float)))
 
 (defun apply-val-diff(percent start-val diff)
   "Applies a color val & diff pair to a percent"
