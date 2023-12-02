@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="reveal/dist/reset.css">
+		<link rel="stylesheet" href="reveal/dist/reveal.css">
+		<link rel="stylesheet" href="reveal/dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="reveal/plugin/highlight/monokai.css">
+    <style>
+.fragment.disappear-after.visible:not(.current-fragment) {
+    display: none;
+    height:0px;
+    line-height: 0px;
+    font-size: 0px;
+}
+pre {
+    width: fit-content !important;
+}
+    </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+                    <h2>OOP and Functional Programming</h2>
+                    <p>How can the Object Oriented (OOP) paradigm be used in conjunction with the Functional Programming (FP) paradigm?</p>
+                    <aside class="notes">
+                        - I've worked with OOP languages before this class (C#/python/TS)<br>
+                        - Wanted to explore other paradigms too<br>
+                        - So, Honors Contract comparing OOP & FP, and exploring using both together
+                    </aside>
+                </section>
+                <section>
+                    <h2>Project Goal</h2>
+                    <p>
+                        Program which creates an image file of the specified size,
+                        containing a left-to-right gradient from green to red.
+                    </p>
+                    <aside class="notes">
+                        - Suggested to me by my friend Denver Ellis,
+                        a CyberSec with programming background.<br>
+                        - Goal isn't to make something useful,<br>
+                        - just something to show off the OOP, FP, and both combined
+                    </aside>
+                </section>
+                <section>
+                    <h2>Project Details</h2>
+                    <ul>
+                        <li>OOP-focused C++ Impelementation</li>
+                        <li>FP-focused Lisp Impelementation</li>
+                        <li>FP with OOP Python Impelementation</li>
+                    </ul>
+                    <aside class="notes">
+                        End with: So why am I using 3 separate languages?
+                    </aside>
+                </section>
+                <section>
+                    <h2>Aside: Multi-Paradigm Languages</h2>
+                    <ul>
+                        <li>C++ supports FP (even though it's object-oriented)
+                            <pre class="fragment disappear-after" data-fragment-index="1"><code data-trim data-noescape>
+                                template&lt;typename T&gt;
+                                int square_all(std::vector&lt;T&gt; const&amp; vecOfNums) {
+                                    std::vector&lt;T&gt; result;
+                                    result.resize(vecOfNums.size());
+                                    std::transform(
+                                        vecOfNums.begin(), vecOfNums.end(),
+                                        result.begin(),
+                                        [](T x) {
+                                            return x*x;
+                                        });
+                                    return result;
+                                }
+                            </code></pre>
+                        </li>
+                        <li class="fragment" data-fragment-index="2">Lisp supports OOP (even though it's functional)</li>
+                        <li class="fragment" data-fragment-index="3">Python supports OOP & Functional too...</li>
+                    </ul>
+                    <p class="fragment" data-fragment-index="4">
+                        Multi-Paradigm langs aren't necessarily good at all paradigms.
+                    </p>
+                    <aside class="notes">
+                        - Something you may not know: C++ supports both FP & OOP, even though we've only done OOP<br>
+                        - However, C++ FP algorithms (usually found in &lt;algorithm&gt;) are... Let me show you.<br>
+                        - (next)If you can look at this without your stomach turning, I'm impressed.<br>
+                        - It's not easy or convenient to write FP programs.<br>
+                        - Lisp, while primarily Functional, can do OOP too. Same issue: not convenient to write<br>
+                        - Python can do both decently conveniently, luckily.<br>
+                        - Further:
+                        &nbsp;&nbsp;- C++: Language we're most familiar with for OOP<br>
+                        &nbsp;&nbsp;- Lisp: Built around being functional<br>
+                        &nbsp;&nbsp;- Python: Capable of both\*<br>
+                        &nbsp;&nbsp;- (Also excuse to learn Lisp)<br>
+                    </aside>
+                </section>
+                <section>
+                    <h2>Aside: PPM Files</h2>
+                    <ul>
+                        <li>PPM is a bad image format</li>
+                        <li class="fragment" data-fragment-index="1">JPG version: ~6.08% of the size</li>
+                        <li class="fragment" data-fragment-index="1">PNG version: ~0.07% of the size</li>
+                        <li class="fragment" data-fragment-index="2">However: Simplicity</li>
+                    </ul>
+                    <aside class="notes">
+                        - I'm outputting my image as a PPM<br>
+                        - No one has heard of PPM; it's like JPG & PNG but worse<br>
+                        - Opened output in gimp; exported to jpg and png & compared filesizes<br>
+                        &nbsp;&nbsp;- NOT a meaningful evaluation; just a case study<br>
+                        &nbsp;&nbsp;- Point is that JPG & PNG compress the image, PPM does not<br>
+                        - Also worth noting I used the `P3` version; could cut it down by ~1/2 to ~1/4 using `P6`<br>
+                        - Reasoning: PPM is simple, and project isn't about image formats.
+                    </aside>
+                </section>
+			</div>
+		</div>
+
+		<script src="reveal/dist/reveal.js"></script>
+		<script src="reveal/plugin/notes/notes.js"></script>
+		<script src="reveal/plugin/markdown/markdown.js"></script>
+		<script src="reveal/plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
