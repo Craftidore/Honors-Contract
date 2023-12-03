@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>OOP and Functional Programming</title>
 
 		<link rel="stylesheet" href="reveal/dist/reset.css">
 		<link rel="stylesheet" href="reveal/dist/reveal.css">
@@ -36,6 +36,7 @@ pre {
                         - So, Honors Contract comparing OOP & FP, and exploring using both together
                     </aside>
                 </section>
+
                 <section>
                     <h2>Project Goal</h2>
                     <p>
@@ -49,6 +50,7 @@ pre {
                         - just something to show off the OOP, FP, and both combined
                     </aside>
                 </section>
+
                 <section>
                     <h2>Project Details</h2>
                     <ul>
@@ -60,11 +62,12 @@ pre {
                         End with: So why am I using 3 separate languages?
                     </aside>
                 </section>
+
                 <section>
                     <h2>Aside: Multi-Paradigm Languages</h2>
                     <ul>
                         <li>C++ supports FP (even though it's object-oriented)
-                            <pre class="fragment disappear-after" data-fragment-index="1"><code data-trim data-noescape>
+                            <pre class="cpp fragment disappear-after" data-fragment-index="1"><code data-trim data-noescape>
                                 template&lt;typename T&gt;
                                 int square_all(std::vector&lt;T&gt; const&amp; vecOfNums) {
                                     std::vector&lt;T&gt; result;
@@ -92,13 +95,14 @@ pre {
                         - It's not easy or convenient to write FP programs.<br>
                         - Lisp, while primarily Functional, can do OOP too. Same issue: not convenient to write<br>
                         - Python can do both decently conveniently, luckily.<br>
-                        - Further:
+                        - Further:<br>
                         &nbsp;&nbsp;- C++: Language we're most familiar with for OOP<br>
                         &nbsp;&nbsp;- Lisp: Built around being functional<br>
                         &nbsp;&nbsp;- Python: Capable of both\*<br>
                         &nbsp;&nbsp;- (Also excuse to learn Lisp)<br>
                     </aside>
                 </section>
+
                 <section>
                     <h2>Aside: PPM Files</h2>
                     <ul>
@@ -116,6 +120,241 @@ pre {
                         - Also worth noting I used the `P3` version; could cut it down by ~1/2 to ~1/4 using `P6`<br>
                         - Reasoning: PPM is simple, and project isn't about image formats.
                     </aside>
+                </section>
+
+                <section>
+                    <h2>Object Oriented Programming</h2>
+                    <ol>
+                        <li>Abstraction</li>
+                        <li>Encapsulation (info hiding)</li>
+                        <li><em>Inheritance/Polymorphism</em></li>
+                        <li>Handling State</li>
+                    </ol>
+                    <aside class="notes">
+                        "Using Objects to create good Abstraction, Encapsulation of invariants, extend abstractions with Inheritance / Polymorphism, and Handle State"<br>
+                        <br>
+                        Handling state isn't something we've talked about, but Objects store state & methods can modify state (while protecting invariant).<br>
+                        FP will have different take on State.<br>
+                        Examine these.
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>OOP: Abstraction</h3>
+                    <p>Primary abstractions: 
+                        <ul>
+                            <li class="fragment disappear-after" data-fragment-index="0">'Color'
+                                <pre class="cpp"><code data-trim data-noescape>
+                                class RGBColor {
+                                    // stores red green blue triplet
+                                }
+                                using Color = RGBColor;
+                                </code></pre>
+                            </li>
+                            <li class="fragment disappear-after" data-fragment-index="0">PPM image</li>
+                            <li class="fragment" data-fragment-index="1">Color</li>
+                            <li class="fragment" data-fragment-index="1">PPM image
+                                <pre class="cpp"><code data-trim data-noescape>
+                                class PortablePixelMap {
+                                    PortablePixelMap(y, x, color = Color::Black());
+                                    void resize(y, x, color = Color::Black());
+                                    void printImageFile(ostream&amp; out) const;
+                                    Color&amp; at(y, x); // and const version
+                                }
+                                </code></pre>
+                            </li>
+                        </ul>
+                    </p>
+                    <aside class="notes">
+                        Main Abstractions: Color & PPM File<br>
+                        Provides interfaces for printing image to file or other stream
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>OOP: Encapsulation</h3>
+                    <p>Color values: min 0, max 255</p>
+                    <p>PPM: row sizes must match (i.e. table invariance)</p>
+                    <aside class="notes">
+                        Color's invariant was that red/green/blue vals stay between 0-255<br>
+                        PPM had to keep track of entire image; row sizes must all match.<br>
+                        <br>
+                        Note interface permitting modification of "state" (i.e. stored image / setters for rgb).
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>OOP: Inheritance</h3>
+                    No Inheritance or Polymorphism was used in this project.
+                </section>
+
+                <section>
+                    <h3>OOP: State Handling</h3>
+                    <p>Every object here had a method to change it's data. 
+                        Used to protect invariance.</p>
+                    <ul class="fragment" data-fragment-index="1">
+                        <li>Why don't we like global vars?</li>
+                        <li>Who modified a given object?</li>
+                    </ul>
+                    <aside class="notes">
+                        Global vars are bad because they can be changed by anyone.<br>
+                        Modifiable objects also bad because they can be changed in any function they're passed to.<br>
+                        Objects still *improve* state handling bcs invariant protection.
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Aside: Lisp Basics</h3>
+                    <p>Lisp is... weird.</p>
+                    <pre class="lisp fragment disappear-after" data-fragment-index="1"><code data-trim data-noescape>
+                        ; Function call:
+                         (dostuff 4 5)
+                        ; |       | ^second parameter
+                        ; |       ^first parameter
+                        ; ^function being called
+                    </code></pre>
+                    <pre class="lisp fragment disappear-after" data-fragment-index="2"><code data-trim data-noescape>
+                        ; Data literals are marked with '
+                         '(LittleRock StLouis Nashville)
+                        ; A lot like:
+                        ; { "LittleRock", "StLouis", "Nashville" }
+                    </code></pre>
+                    <pre class="lisp fragment disappear-after" data-fragment-index="3"><code data-trim data-noescape>
+                        ; Function defs look like so:
+                         (defun square_number (x)
+                        ; |     ^func name     ^parameters
+                        ; ^'defun' == <u>de</u>fine <u>fun</u>ction
+                            (* x x)) ; &lt;-last expression in function is automatically returned
+                        ;    ^yes, operators work like functions; this means x*x
+                    </code></pre>
+                    <aside class="notes">
+                        Lisp: second high-level programming language ever.<br>
+                        Not like C++ (C wasn't created yet).<br>
+                        Some quick examples so you have some idea what's going on in future examples.
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Lisp and Lists</h3>
+                    <ul>
+                        <li>Lists are first class citizens</li>
+                        <li class="fragment" data-fragment-index="1">Specific element access
+                            <table>
+                                <tr><th>Lisp function</th><th>Equivalent</th></tr>
+                                <tr><td><code>(car mylist)</code></td><td><code>mylist[0]</code></td></tr>
+                                <tr><td><code>(cadr mylist)</code></td><td><code>mylist[1]</code></td></tr>
+                                <tr><td><code>(caddr mylist)</code></td><td><code>mylist[2]</code></td></tr>
+                                <tr><td><code>(cdar mylist)</code></td><td><code>mylist[0][0]</code></td></tr>
+                                <tr><td><code>(cdadr mylist)</code></td><td><code>mylist[1][0]</code></td></tr>
+                            </table>
+                        </li>
+                    </ul>
+                    <aside class="notes">
+                        Lists are first class citizens. What I mean: Majority of built-in functions work around lists.<br>
+                        Element access when *not* going through whole list is atypical, so I wanted to mention it.<br>
+                        There's a sensible reason for why Lisp does this, but outside scope. Talk to me after class if you're curious.<br>
+                        Takeaway: When you see `car`, `cadr`, etc: I'm accessing a list element
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Functional Programming Paradigm</h2>
+                    <ul>
+                        <li>Functions should do 1-and-only-1 thing</li>
+                        <li>Expressions are first-class citizens</li>
+                        <li>No State & No Side Effects</li>
+                        <li>Functions are used as parameters</li>
+                    </ul>
+                    <aside class="notes">
+                        Now, I don't have a convenient defintion for FP.<br>
+                        Here are the things that are important. Impossible to 100% follow.<br>
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>FP: Functions Have 1 Job &amp; First-Class Expressions</h3>
+                    <pre language="lisp"><code data-noescape data-trim>
+                        (defun apply-val-diff(percent start-val diff)
+                          (floor (+ start-val (* percent diff))))
+                    </code></pre>
+                    <aside class="notes">
+                        Functions should be small. They should do one thing.<br>
+                        Ex 1: Simple, easily graspable; you *could* just put into the function that calls it.
+                            Note that no variables used; just an expression.
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>FP: Functions as Parameters &amp; No State</h3>
+                    <pre language="lisp"><code data-noescape data-trim>
+                        (defun generate-gradient(width color1 color2)
+                          (mapcar
+                            (lambda (percent)
+                              (apply-color-diff percent color1 color2))
+                            (generate-list-of-floats width)))
+                    </code></pre>
+                    <aside class="notes">
+                        Mapcar iterates through list, returning new one.<br>
+                        Takes *function* (lambda) as parameter (note: feels like visitor pattern)<br>
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>FP: Expressions &amp; No State</h3>
+                    <p>Everything is an expression in lisp. Even control flow.</p>
+                    <pre language="lisp"><code data-noescape data-trim>
+                        (defun add-extension-if-not-present (filename ext)
+                          (if (not (check-for-extension filename ext))
+                            (concatenate 'string filename ext)
+                            filename))
+                    </code></pre>
+                    <aside class="notes">
+                        My function for adding `.ppm` onto the given filename if its not there already.<br>
+                        Everything is an expression; including *if*<br>
+                        So if yes, "if" returns the filname + `.ppm`<br>
+                        If no, "if" returns the filename unmodified<br>
+                        And because it's the last expression, this function returns what if returns.<br>
+                        <br>
+                        filename is never modified
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>FP: Where Are the Variables?</h3>
+                    <pre class="lisp"><code data-noescape data-trim>
+                        (defun check-for-extension (filename ext)
+                          (string-equal 
+                            (substring (reverse filename) 0 (length ext))
+                            (reverse ext)))
+                    </code></pre>
+                    <pre class="cpp fragment" data-fragment-index="1"><code data-noescape data-trim>
+                        bool checkForExtensions(string filename, string ext) {
+                            return stringCompare(
+                                filename.substr(filename.size() - ext.size(),
+                                    ext.size()).c_str(),
+                                ext.c_str());
+                        }
+                    </code></pre>
+                    <aside class="notes">
+                        Where are the variables?<br>
+                        Have you noticed I return things directly without ever assigning variables.<br>
+                        In C++, it'd be like this. This is hard to read & debug C++, so why do we nest expressions in functional languages?<br>
+                        Reasons:<br>
+                        &nbsp;&nbsp;- Side-effect-less-ness garauntees function call can be treated as if it were variable.<br>
+                        &nbsp;&nbsp;- Refactoring is easier when you can pull out entire expression<br>
+                        &nbsp;&nbsp;- Expressions are first class citizens over vars<br>
+                    </aside>
+                </section>
+
+                <section><h1>TODO: compare Encapsulation by Object vs Encapsulation by side-effect-less function</h1></section>
+
+                <section>
+                    <h3>Functional Programming Conclusions</h3>
+                    <ul>
+                        <li>Debugging functions is easier without state worries.</li>
+                        <li>No convenient abstractions for data</li>
+                        <li>FP Languages are typically way slower</li>
+                    </ul>
                 </section>
 			</div>
 		</div>

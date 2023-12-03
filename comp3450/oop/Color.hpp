@@ -1,7 +1,7 @@
 #ifndef __Color_HPP_INCLUDED__
 #define __Color_HPP_INCLUDED__
 
-struct RGBColor {
+class RGBColor {
 private:
     int _red, _green, _blue;
     bool validate();

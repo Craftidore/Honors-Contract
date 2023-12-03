@@ -35,7 +35,7 @@
 
 (defun read-int (args)
   "Returns arg's integer"
-  (parse-integer (car *args*)))
+  (parse-integer (car args)))
 
 
 (defun check-for-extension (filename ext)
