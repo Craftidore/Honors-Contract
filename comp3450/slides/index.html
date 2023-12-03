@@ -329,16 +329,16 @@ pre {
                     </code></pre>
                     <pre class="cpp fragment" data-fragment-index="1"><code data-noescape data-trim>
                         bool checkForExtensions(string filename, string ext) {
-                            return stringCompare(
+                            return strcmp(
                                 filename.substr(filename.size() - ext.size(),
                                     ext.size()).c_str(),
-                                ext.c_str());
+                                ext.c_str()) == 0;
                         }
                     </code></pre>
                     <aside class="notes">
                         Where are the variables?<br>
                         Have you noticed I return things directly without ever assigning variables.<br>
-                        In C++, it'd be like this. This is hard to read & debug C++, so why do we nest expressions in functional languages?<br>
+                        In C++, it'd be like this (example is slight exageration). This is hard to read & debug C++, so why do we nest expressions in functional languages?<br>
                         Reasons:<br>
                         &nbsp;&nbsp;- Side-effect-less-ness garauntees function call can be treated as if it were variable.<br>
                         &nbsp;&nbsp;- Refactoring is easier when you can pull out entire expression<br>
@@ -346,7 +346,34 @@ pre {
                     </aside>
                 </section>
 
-                <section><h1>TODO: compare Encapsulation by Object vs Encapsulation by side-effect-less function</h1></section>
+                <section>
+                    <h1>What About Encapsulation?</h1>
+                    <p>If there are no objects, how do we enforce encapsulation?</p>
+                    <pre class="cpp fragment disappear-after" data-fragment-index="1"><code>
+                        class Color {
+                        public:
+                            int getRed();
+                            void setRed(int redVal); // keeps within 0 &amp; 255
+                            // ...
+                        }
+                    </code></pre>
+                    <pre class="lisp fragment" data-fragment-index="2"><code>
+                        (defun apply-color-diff(percent color1 color2)
+                          "Converts percent to a color that percent between color1 and color2"
+                          (mapcar
+                            (lambda (start-val-and-diff)
+                              (apply-val-diff percent (car start-val-and-diff) (cadr start-val-and-diff)))
+                            (colordiff color1 color2)))
+                    </code></pre>
+                    <aside class="notes">
+                        Encapsulation is a 'very good thing&trade;' &amp; primary goal of OOP<br>
+                        Interestingly, also important to FP; implemented differently<br>
+                        No side effects used for Encap. -- I promise my func will return &ltinvariant here&gt;<br>
+                        Modification of vars very strongly discouraged; thus invariant protected.<br>
+                        This function, for example,
+                        won't let colors go out of bounds because of the invariant colordiff enforces.
+                    </aside>
+                </section>
 
                 <section>
                     <h3>Functional Programming Conclusions</h3>
@@ -354,8 +381,63 @@ pre {
                         <li>Debugging functions is easier without state worries.</li>
                         <li>No convenient abstractions for data</li>
                         <li>FP Languages are typically way slower</li>
+                        <li class="fragment" data-fragment-index="1">Values similar things to OOP</li>
                     </ul>
+                    <aside class="notes">
+                        Debugging: Confidence in heirarchal narrowing of scope.<br>
+                        Data Abstractions: Keep them in your head<br>
+                        Slowness: FP Langs are usually much easier to interpret than compile.
+                        Also pointer heavy, recursion heavy, and usually use garbage collection.<br>
+                    </aside>
                 </section>
+
+                <section>
+                    <h2>OOP <em>with</em> FP?</h2>
+                    <ul class="fragment" data-fragment-index="1">
+                        <li>Immutable Classes</li>
+                        <li>Methods need not be purely functional</li>
+                        <li>Methods should not have side effects</li>
+                        <li>Interfaces to classes which accept functions as arguments
+                            <ul><li>Still shouldn't permit modification</li></ul></li>
+                        <li>Functions which aren't Class Methods permitted</li>
+                        <li></li>
+                    </ul>
+                    <aside class="notes">
+                        Can we use OOP principles with FP principles?<br>
+                            I wasn't sure when starting... now think so<br>
+                            Required picking & choosing of principles.
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Aside: Python Basics</h3>
+                    <p>Python's not nearly as abnormal as lisp, but some quick things to note:</p>
+                    <pre class="python fragment disappear-after" data-fragment-index="1"><code data-trim data-noescape>
+                        # Variables have no set types
+                        x = 5 # x is integer 5
+                        x = "five" # x switches to string "five"
+                    </code></pre>
+                    <pre class="python fragment disappear-after" data-fragment-index="2"><code data-trim data-noescape>
+                        class someClass:
+                            def someMethod(self): 
+                                #          ^'this' must be an explicit parameter
+                                #          (usually called self though not required)
+                                return self.x * self.y
+                            def __init__(self, x, y):# this is a constructor
+                                self._x = x
+                                self._y = y
+                    </code></pre>
+                    <aside class="notes">
+                        Quick notes on how python works:<br>
+                        - Variables & types<br>
+                        - class 'this' equiv.<br>
+                        - constructor syntax
+                    </aside>
+                </section>
+
+                <section>
+                </section>
+
 			</div>
 		</div>
 
