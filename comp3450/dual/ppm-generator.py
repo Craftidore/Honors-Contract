@@ -1,8 +1,8 @@
 #!/bin/python
 
-import os
 import io
 import math
+import sys
 
 class Color:
     COLOR_MAX = 255
@@ -119,10 +119,49 @@ def adjust_color(col_num, total_cols, original_color, end_color):
         adjust_color_value(col_num, total_cols, original_color.blue, end_color.blue)
     )
 
+def create_gradient(y, x, start_color, end_color):
+    ppm = PortablePixelMap.create_portable_pixel_map(y,x,start_color)
+    ppm.map_to_image(lambda row_num, col_num, color: adjust_color(col_num, ppm.x_size, color, end_color))
+    return ppm
+
+def get_arg(argnum, default):
+    if len(sys.argv) >= argnum+1:
+        return sys.argv[argnum]
+    else:
+        return default
+
+def get_args(default_height, default_width, default_filename):
+    return (
+        int(get_arg(1, default_height)),
+        int(get_arg(2, default_width)),
+        ensure_filename_extension(get_arg(3, default_filename), ".ppm")
+    )
+
+def ensure_filename_extension(filename, ext):
+    if not filename[-len(ext):] == ext:
+        return filename + ext
+    else:
+        return filename
+def check_meta_flags():
+    result = False
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "--help":
+            print("ppm-generator by Craftidore" +
+                "\nVersion: 0.0.1" +
+                "\n" +
+                "\nppm-generator [y_size [x_size [filename]]]\n")
+            result = True
+        if sys.argv[1] == "--version":
+            print("ppm-generator by Craftidore" +
+                "\nVersion: 0.0.1" + "\n")
+            result = True
+    return result
+
 def main():
-    ppm = PortablePixelMap.create_portable_pixel_map(400,800,GREEN)
-    ppm.map_to_image(lambda row_num, col_num, color: adjust_color(col_num, ppm.x_size, color, RED))
-    ppm.image_to_file("image.ppm")
+    if (not check_meta_flags()):
+        height, width, filename = get_args(400, 800, "image.ppm")
+        ppm = create_gradient(height, width, GREEN, RED)
+        ppm.image_to_file(filename)
 
 if __name__ == "__main__":
     main()
