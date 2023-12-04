@@ -29,9 +29,9 @@ pre {
 			<div class="slides">
 				<section>
                     <h2>OOP and Functional Programming</h2>
-                    <p>How can the Object Oriented (OOP) paradigm be used in conjunction with the Functional Programming (FP) paradigm?</p>
+                    <p>How can the Object Oriented (OOP) paradigm be used in conjunction with the Functional Programming&nbsp;(FP)&nbspparadigm?</p>
                     <aside class="notes">
-                        - I've worked with OOP languages before this class (C#/python/TS)<br>
+                        - I've worked with OOP languages before this class&nbsp;(C#/python/TS)<br>
                         - Wanted to explore other paradigms too<br>
                         - So, Honors Contract comparing OOP & FP, and exploring using both together
                     </aside>
@@ -41,7 +41,7 @@ pre {
                     <h2>Project Goal</h2>
                     <p>
                         Program which creates an image file of the specified size,
-                        containing a left-to-right gradient from green to red.
+                        containing a left-to-right gradient from&nbsp;green&nbsp;to&nbsp;red.
                     </p>
                     <aside class="notes">
                         - Suggested to me by my friend Denver Ellis,
@@ -69,7 +69,7 @@ pre {
                         <li>C++ supports FP (even though it's object-oriented)
                             <pre class="cpp fragment disappear-after" data-fragment-index="1"><code data-trim data-noescape>
                                 template&lt;typename T&gt;
-                                int square_all(std::vector&lt;T&gt; const&amp; vecOfNums) {
+                                std::vector&lt;T&g&gt;; square_all(std::vector&lt;T&gt; const&amp; vecOfNums) {
                                     std::vector&lt;T&gt; result;
                                     result.resize(vecOfNums.size());
                                     std::transform(
@@ -143,18 +143,16 @@ pre {
                     <h3>OOP: Abstraction</h3>
                     <p>Primary abstractions: 
                         <ul>
-                            <li class="fragment disappear-after" data-fragment-index="0">'Color'
-                                <pre class="cpp"><code data-trim data-noescape>
+                            <li >Color
+                                <pre class="cpp fragment disappear-after" data-fragment-index="0"><code data-trim data-noescape>
                                 class RGBColor {
                                     // stores red green blue triplet
                                 }
                                 using Color = RGBColor;
                                 </code></pre>
                             </li>
-                            <li class="fragment disappear-after" data-fragment-index="0">PPM image</li>
-                            <li class="fragment" data-fragment-index="1">Color</li>
-                            <li class="fragment" data-fragment-index="1">PPM image
-                                <pre class="cpp"><code data-trim data-noescape>
+                            <li>PPM image
+                                <pre class="cpp fragment" data-fragment-index="1"><code data-trim data-noescape>
                                 class PortablePixelMap {
                                     PortablePixelMap(y, x, color = Color::Black());
                                     void resize(y, x, color = Color::Black());
@@ -234,28 +232,28 @@ pre {
                     </aside>
                 </section>
 
-                <section>
-                    <h3>Lisp and Lists</h3>
-                    <ul>
-                        <li>Lists are first class citizens</li>
-                        <li class="fragment" data-fragment-index="1">Specific element access
-                            <table>
-                                <tr><th>Lisp function</th><th>Equivalent</th></tr>
-                                <tr><td><code>(car mylist)</code></td><td><code>mylist[0]</code></td></tr>
-                                <tr><td><code>(cadr mylist)</code></td><td><code>mylist[1]</code></td></tr>
-                                <tr><td><code>(caddr mylist)</code></td><td><code>mylist[2]</code></td></tr>
-                                <tr><td><code>(cdar mylist)</code></td><td><code>mylist[0][0]</code></td></tr>
-                                <tr><td><code>(cdadr mylist)</code></td><td><code>mylist[1][0]</code></td></tr>
-                            </table>
-                        </li>
-                    </ul>
-                    <aside class="notes">
-                        Lists are first class citizens. What I mean: Majority of built-in functions work around lists.<br>
-                        Element access when *not* going through whole list is atypical, so I wanted to mention it.<br>
-                        There's a sensible reason for why Lisp does this, but outside scope. Talk to me after class if you're curious.<br>
-                        Takeaway: When you see `car`, `cadr`, etc: I'm accessing a list element
-                    </aside>
-                </section>
+<!--                 <section> -->
+<!--                     <h3>Lisp and Lists</h3> -->
+<!--                     <ul> -->
+<!--                         <li>Lists are first class citizens</li> -->
+<!--                         <li class="fragment" data-fragment-index="1">Specific element access -->
+<!--                             <table> -->
+<!--                                 <tr><th>Lisp function</th><th>Equivalent</th></tr> -->
+<!--                                 <tr><td><code>(car mylist)</code></td><td><code>mylist[0]</code></td></tr> -->
+<!--                                 <tr><td><code>(cadr mylist)</code></td><td><code>mylist[1]</code></td></tr> -->
+<!--                                 <tr><td><code>(caddr mylist)</code></td><td><code>mylist[2]</code></td></tr> -->
+<!--                                 <tr><td><code>(cdar mylist)</code></td><td><code>mylist[0][0]</code></td></tr> -->
+<!--                                 <tr><td><code>(cdadr mylist)</code></td><td><code>mylist[1][0]</code></td></tr> -->
+<!--                             </table> -->
+<!--                         </li> -->
+<!--                     </ul> -->
+<!--                     <aside class="notes"> -->
+<!--                         Lists are first class citizens. What I mean: Majority of built-in functions work around lists.<br> -->
+<!--                         Element access when *not* going through whole list is atypical, so I wanted to mention it.<br> -->
+<!--                         There's a sensible reason for why Lisp does this, but outside scope. Talk to me after class if you're curious.<br> -->
+<!--                         Takeaway: When you see `car`, `cadr`, etc: I'm accessing a list element -->
+<!--                     </aside> -->
+<!--                 </section> -->
 
                 <section>
                     <h2>Functional Programming Paradigm</h2>
@@ -273,8 +271,8 @@ pre {
 
                 <section>
                     <h3>FP: Functions Have 1 Job &amp; First-Class Expressions</h3>
-                    <pre language="lisp"><code data-noescape data-trim>
-                        (defun apply-val-diff(percent start-val diff)
+                    <pre class="lisp"><code data-noescape data-trim>
+                        (defun apply-val-diff (percent start-val diff)
                           (floor (+ start-val (* percent diff))))
                     </code></pre>
                     <aside class="notes">
@@ -286,8 +284,8 @@ pre {
 
                 <section>
                     <h3>FP: Functions as Parameters &amp; No State</h3>
-                    <pre language="lisp"><code data-noescape data-trim>
-                        (defun generate-gradient(width color1 color2)
+                    <pre class="lisp"><code data-noescape data-trim>
+                        (defun generate-gradient (width color1 color2)
                           (mapcar
                             (lambda (percent)
                               (apply-color-diff percent color1 color2))
@@ -302,7 +300,7 @@ pre {
                 <section>
                     <h3>FP: Expressions &amp; No State</h3>
                     <p>Everything is an expression in lisp. Even control flow.</p>
-                    <pre language="lisp"><code data-noescape data-trim>
+                    <pre class="lisp"><code data-noescape data-trim>
                         (defun add-extension-if-not-present (filename ext)
                           (if (not (check-for-extension filename ext))
                             (concatenate 'string filename ext)
@@ -401,7 +399,6 @@ pre {
                         <li>Interfaces to classes which accept functions as arguments
                             <ul><li>Still shouldn't permit modification</li></ul></li>
                         <li>Functions which aren't Class Methods permitted</li>
-                        <li></li>
                     </ul>
                     <aside class="notes">
                         Can we use OOP principles with FP principles?<br>
@@ -439,7 +436,7 @@ pre {
                 <section>
                     <h3>I lied</h3>
                     <p>No such thing as a private instance variable</p>
-                    <p class="fragment" data-fragment-index="1">However, convention is that variables starting with <code>_</code> are private.<br>People will be upset if you touch them.<p>
+                    <p class="fragment" data-fragment-index="1">However, convention is that variables starting with <code>_</code> are private. People will be upset if you touch them.<p>
                     <aside class="notes">
                         Earlier I mentioned that Python supports both OOP & FP.<br>
                         Lie because no such thing as private instance var.<br>
@@ -500,7 +497,9 @@ pre {
                         new_image = PortablePixelMap(self._image_grid)
                         for row_num in range(self._y_size):
                             for col_num in range(self._x_size):
-                                new_image._image_grid[row_num][col_num] = visit(row_num, col_num, new_image._image_grid[row_num][col_num])
+                                new_image._image_grid[row_num][col_num]
+                                    = visit(row_num, col_num,
+                                        new_image._image_grid[row_num][col_num])
                         return new_image
                     </code></pre>
                     <p class="fragment" data-fragment-index="2">This <em>does</em> look a lot like the visitor pattern.</p>
@@ -556,30 +555,52 @@ pre {
                 </section>
 
                 <section>
-                    <h2>Retrospective: Issues<h2>
+                    <h2>Retrospective: Issues</h2>
                     <ul>
                         <li>Lisp program used lists as tuples.</li>
                         <li>Lisp program has naive mistakes caused by inexperience.</li>
                         <li>Python program used Color ctor instead of map method.</li>
                         <li>Python &amp; Lisp program both missing proper input validation.</li>
                         <li>C++ program very overengineered.</li>
+                        <li>None </li>
                     </ul>
                 </section>
 
+<!--                 <section> -->
+<!--                     <h3> TODO: The "Bug"</h3> -->
+<!--                 </section> -->
+
+<!--                 <section> -->
+<!--                     <h3> TODO: River's Refactor</h3> -->
+<!--                 </section> -->
+
+<!--                 <section> -->
+<!--                     <h3> TODO: Example of Programs </h3> -->
+<!--                 </section> -->
+
                 <section>
-                    <h3> TODO: The "Bug"</h3>
+                    <img src="./ppm_program_run.png" alt="The Lisp PPM Running">
+                </section>
+                <section>
+                    <img src="./resultant_ppm.png" alt="Resulting PPM in GIMP">
                 </section>
 
                 <section>
-                    <h3> TODO: River's Refactor</h3>
-                </section>
-
-                <section>
-                    <h3> TODO: Example of Programs </h3>
-                </section>
-
-                <section>
-                    <h3> TODO: Attribution &amp; Resources</h3>
+                    <h3>Attribution</h3>
+                    <ul>
+                        <li class="fragment disappear-after" data-fragment-index="1">People:<ul><li>Denver Ellis</li><li>River</li></ul></li>
+                        <li class="fragment disappear-after" data-fragment-index="2">Resources:<ul>
+                            <li><a href="https://lispcookbook.github.io/cl-cookbook/">CommonLisp Cookbook</a></li>
+                            <li><a href="https://www.youtube.com/watch?v=ymSq4wHrqyU">Derek Banas' "Lisp Tutorial" on Youtube</a></li>
+                            <li><a href="https://www.youtube.com/watch?v=8z_bUIl_uPo">Daudalus Community's "Functional Programming: A general introduction"</a></li>
+                        </ul></li>
+                        <li class="fragment disappear-after" data-fragment-index="3">Project:
+                            <ul>
+                                <li>Slides: <a href="https://craftidore.com/school/2023/12--December/COMP-3450-Honors-Contract/">https://craftidore.com/school/2023/12--December/COMP-3450-Honors-Contract/</a></li>
+                                <li>Code: <a href="https://github.com/Craftidore/Honors-Contract/tree/main/comp3450">https://github.com/Craftidore/Honors-Contract/tree/main/comp3450</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </section>
 			</div>
 		</div>
