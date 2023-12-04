@@ -54,9 +54,9 @@ pre {
                 <section>
                     <h2>Project Details</h2>
                     <ul>
-                        <li>OOP-focused C++ Impelementation</li>
-                        <li>FP-focused Lisp Impelementation</li>
-                        <li>FP with OOP Python Impelementation</li>
+                        <li>OOP-focused C++ Implementation</li>
+                        <li>FP-focused Lisp Implementation</li>
+                        <li>FP with OOP Python Implementation</li>
                     </ul>
                     <aside class="notes">
                         End with: So why am I using 3 separate languages?
@@ -69,7 +69,7 @@ pre {
                         <li>C++ supports FP (even though it's object-oriented)
                             <pre class="cpp fragment disappear-after" data-fragment-index="1"><code data-trim data-noescape>
                                 template&lt;typename T&gt;
-                                std::vector&lt;T&g&gt;; square_all(std::vector&lt;T&gt; const&amp; vecOfNums) {
+                                std::vector&lt;T&gt; square_all(std::vector&lt;T&gt; const&amp; vecOfNums) {
                                     std::vector&lt;T&gt; result;
                                     result.resize(vecOfNums.size());
                                     std::transform(
@@ -299,7 +299,7 @@ pre {
 
                 <section>
                     <h3>FP: Expressions &amp; No State</h3>
-                    <p>Everything is an expression in lisp. Even control flow.</p>
+                    <p>Everything is an expression in Lisp. Even control flow.</p>
                     <pre class="lisp"><code data-noescape data-trim>
                         (defun add-extension-if-not-present (filename ext)
                           (if (not (check-for-extension filename ext))
@@ -409,7 +409,7 @@ pre {
 
                 <section>
                     <h3>Aside: Python Basics</h3>
-                    <p>Python's not nearly as abnormal as lisp, but some quick things to note:</p>
+                    <p>Python's not nearly as abnormal as Lisp, but some quick things to note:</p>
                     <pre class="python fragment disappear-after" data-fragment-index="1"><code data-trim data-noescape>
                         # Variables have no set types
                         x = 5 # x is integer 5
@@ -562,7 +562,7 @@ pre {
                         <li>Python program used Color ctor instead of map method.</li>
                         <li>Python &amp; Lisp program both missing proper input validation.</li>
                         <li>C++ program very overengineered.</li>
-                        <li>None </li>
+                        <li>None of the implementations permit custom colors.</li>
                     </ul>
                 </section>
 
@@ -588,7 +588,7 @@ pre {
                 <section>
                     <h3>Attribution</h3>
                     <ul>
-                        <li class="fragment disappear-after" data-fragment-index="1">People:<ul><li>Denver Ellis</li><li>River</li></ul></li>
+                        <li class="fragment disappear-after" data-fragment-index="1">People:<ul><li>Denver Ellis</li><li>River</li><li>François Vaux</li></ul></li>
                         <li class="fragment disappear-after" data-fragment-index="2">Resources:<ul>
                             <li><a href="https://lispcookbook.github.io/cl-cookbook/">CommonLisp Cookbook</a></li>
                             <li><a href="https://www.youtube.com/watch?v=ymSq4wHrqyU">Derek Banas' "Lisp Tutorial" on Youtube</a></li>
