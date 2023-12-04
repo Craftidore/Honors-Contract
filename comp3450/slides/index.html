@@ -349,7 +349,7 @@ pre {
                 <section>
                     <h1>What About Encapsulation?</h1>
                     <p>If there are no objects, how do we enforce encapsulation?</p>
-                    <pre class="cpp fragment disappear-after" data-fragment-index="1"><code>
+                    <pre class="cpp fragment disappear-after" data-fragment-index="1"><code data-noescape data-trim>
                         class Color {
                         public:
                             int getRed();
@@ -357,7 +357,7 @@ pre {
                             // ...
                         }
                     </code></pre>
-                    <pre class="lisp fragment" data-fragment-index="2"><code>
+                    <pre class="lisp fragment" data-fragment-index="2"><code data-noescape data-trim>
                         (defun apply-color-diff(percent color1 color2)
                           "Converts percent to a color that percent between color1 and color2"
                           (mapcar
@@ -387,7 +387,8 @@ pre {
                         Debugging: Confidence in heirarchal narrowing of scope.<br>
                         Data Abstractions: Keep them in your head<br>
                         Slowness: FP Langs are usually much easier to interpret than compile.
-                        Also pointer heavy, recursion heavy, and usually use garbage collection.<br>
+                        Also pointer heavy, recursion heavy, and usually use garbage collection.
+                        Most of All: Encourage copying of large amounts of data.<br>
                     </aside>
                 </section>
 
@@ -436,8 +437,150 @@ pre {
                 </section>
 
                 <section>
+                    <h3>I lied</h3>
+                    <p>No such thing as a private instance variable</p>
+                    <p class="fragment" data-fragment-index="1">However, convention is that variables starting with <code>_</code> are private.<br>People will be upset if you touch them.<p>
+                    <aside class="notes">
+                        Earlier I mentioned that Python supports both OOP & FP.<br>
+                        Lie because no such thing as private instance var.<br>
+                        So it can still be used as OOP lang
+                    </aside>
                 </section>
 
+                <section>
+                    <h3>Immutable Classes</h3>
+                    <pre class="python fragment" data-fragment-index="1"><code data-trim data-noescape>
+                    class Color:
+                        # ...
+                        # by default, @property permits getting but not setting
+                        @property
+                        def red(self):
+                            return self._red
+                        @property
+                        def green(self):
+                            return self._green
+                        @property
+                        def blue(self):
+                            return self._blue
+                    </code></pre>
+                    <aside class="notes">
+                        Even though no privates, getter/setters are built in<br>
+                        Made classes immutable; no setters, just getters.
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Methods need not be functional</h3>
+                    <p>Alright to use imperative structure.</p>
+                    <pre class="python"><code data-trim data-noescape>
+                    def _check_image_grid_invariant(self):
+                        grid_is_list = isinstance(self._image_grid, list)
+                        rows_are_valid = True
+                        if grid_is_list:
+                            for row in self._image_grid:
+                                row_is_list = isinstance(row, list)
+                                row_items_are_valid = True
+                                if (row_is_list):
+                                    for item in row:
+                                        row_items_are_valid = isinstance(item, Color)
+                                rows_are_valid &amp;= row_is_list and row_items_are_valid
+                        return grid_is_list and rows_are_valid
+                    </code></pre>
+                    <aside class="notes">
+                        I didn't sweat making my methods single-expression-y, nor never modifying vars.<br>
+                        This doesn't mean  the functions may have side-effects.<br>
+                        (Or those that do may only be called in ctor)
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Interfaces with function for argument:</h3>
+                    <pre class="python fragment" data-fragment-index="1"><code data-trim data-noescape>
+                    def map_to_image(self, visit):
+                        new_image = PortablePixelMap(self._image_grid)
+                        for row_num in range(self._y_size):
+                            for col_num in range(self._x_size):
+                                new_image._image_grid[row_num][col_num] = visit(row_num, col_num, new_image._image_grid[row_num][col_num])
+                        return new_image
+                    </code></pre>
+                    <p class="fragment" data-fragment-index="2">This <em>does</em> look a lot like the visitor pattern.</p>
+                    <aside class="notes">
+                        Now, to make OOP work with functional, we're changing how we talk to objects.<br>
+                        Still can't modify them...<br>
+                        Can create new ones based on old ones.<br>
+                        Same as we were doing with objects, but new rule: we're creating a new ppm, not modifying the old
+                    </aside>
+                </section>
+
+                <section>
+                    <h4>Functional Code</h4>
+                    <pre class="python fragment disappear-after" data-fragment-index="0"><code data-trim data-noescape>
+                    def get_percent_of_total(col_num, total_cols):
+                        return col_num / total_cols
+                    def get_color_adjustment(percent_of_total, start_color_value,
+                        end_color_value):
+                        return math.floor(
+                            (end_color_value - start_color_value) 
+                            * percent_of_total)
+                    def adjust_color_value(col_num, total_cols, start_color_value,
+                        end_color_value):
+                        return start_color_value 
+                            + get_color_adjustment(
+                                get_percent_of_total(col_num, total_cols),
+                                start_color_value, end_color_value)
+                    </code></pre>
+                    <pre class="python fragment disappear-after" data-fragment-index="1"><code data-trim data-noescape>
+                    def adjust_color(col_num, total_cols, original_color,
+                        end_color):
+                        return Color(
+                            adjust_color_value(col_num, total_cols,
+                                original_color.red, end_color.red),
+                            adjust_color_value(col_num, total_cols,
+                                original_color.green, end_color.green),
+                            adjust_color_value(col_num, total_cols,
+                                original_color.blue, end_color.blue))
+                    </code></pre>
+                    <pre class="python fragment" data-fragment-index="2"><code data-trim data-noescape>
+                    def create_gradient(y, x, start_color, end_color):
+                        ppm = PortablePixelMap.create_portable_pixel_map(
+                            y,x,start_color)
+                        ppm.map_to_image(
+                            lambda row_num, col_num, color:
+                                adjust_color(col_num, ppm.x_size, color, end_color))
+                        return ppm
+                    </code></pre>
+                    <aside class="notes">
+                        Defining atomic expression-centric functions,
+                        which do one. 
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Retrospective: Issues<h2>
+                    <ul>
+                        <li>Lisp program used lists as tuples.</li>
+                        <li>Lisp program has naive mistakes caused by inexperience.</li>
+                        <li>Python program used Color ctor instead of map method.</li>
+                        <li>Python &amp; Lisp program both missing proper input validation.</li>
+                        <li>C++ program very overengineered.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3> TODO: The "Bug"</h3>
+                </section>
+
+                <section>
+                    <h3> TODO: River's Refactor</h3>
+                </section>
+
+                <section>
+                    <h3> TODO: Example of Programs </h3>
+                </section>
+
+                <section>
+                    <h3> TODO: Attribution &amp; Resources</h3>
+                </section>
 			</div>
 		</div>
 
